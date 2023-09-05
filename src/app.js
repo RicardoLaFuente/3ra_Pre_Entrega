@@ -40,20 +40,8 @@ const profileRouter = require("./routes/profile.routes.js");
 const sessionsRouter = require("./routes/sessions.routes.js");
 const forgotRouter = require("./routes/forgot.routes.js");
 // products
-// const { gestionProd } = require('./dao/fileSystem/ProductManager')
 const { messageRoute } = require("./routes/message.routes");
 const MongoStore = require("connect-mongo");
-
-// let products = []
-// const fetchProducts = async () => {
-//   try {
-//     products = await gestionProd.getProducts()
-//   } catch (error) {
-//     console.error('Error: not product found')
-//     throw new Error(error)
-//   }
-// }
-// fetchProducts()
 
 // port
 const httpServer = app.listen(PORT, () =>
@@ -77,12 +65,11 @@ app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 // static archives
 app.use(express.static("public"));
-// app.use('/api', express.static('public'))
 
 // connect-mongo
 app.use(
   session({
-    secret: MONGOSECRET, //a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0
+    secret: MONGOSECRET, 
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
@@ -115,13 +102,6 @@ app.post("/chat", (req, res) => {
   res.send("ok");
 });
 
-/*
-
-app.get('/', async (req, res) => {
-  res.status(200).render('home', { products: products })
-})
-
-*/
 
 app.get("/products", async (req, res) => {
   try {
@@ -131,17 +111,6 @@ app.get("/products", async (req, res) => {
   }
 });
 
-/*
-
-app.get('/carts/:cid', async (req, res) => {
-  res.status(200).render('carts', { stylesheet: 'carts' })
-})
-
-app.get('/realtimeproducts', async (req, res) => {
-  const products = await gestionProd.getProducts()
-  res.status(200).render('realtimeproducts', { products: products })
-})
-*/
 
 // Socket Events
 sockets(socketServer);
